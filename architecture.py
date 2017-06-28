@@ -19,7 +19,7 @@ def fully_connected_model(x, keep_prob):
     fc2 = ld.fc_layer(fc1, 1200, "encode_2")
     # y 
     y = ld.fc_layer(fc2, (FLAGS.hidden_size) * 2, "encode_3", False, True)
-    mean, stddev = tf.split(1, 2, y)
+    mean, stddev = tf.split(y, 2, 1)
     stddev =  tf.sqrt(tf.exp(stddev))
     # now decoding part
     # sample distrobution
@@ -55,7 +55,7 @@ def conv_model(x, keep_prob):
     fc5_dropout = tf.nn.dropout(fc5, keep_prob)
     # y 
     y = ld.fc_layer(fc5_dropout, (FLAGS.hidden_size) * 2, "encode_6", False, True)
-    mean, stddev = tf.split(1, 2, y)
+    mean, stddev = tf.split(y, 2, 1)
     stddev =  tf.sqrt(tf.exp(stddev))
     # now decoding part
     # sample distrobution
@@ -95,7 +95,7 @@ def all_conv_model(x, keep_prob):
     conv5 = ld.conv_layer(conv4, 3, 1, 8, "encode_5")
     # conv6
     conv6 = ld.conv_layer(conv5, 3, 2, FLAGS.hidden_size*2, "encode_6", True)
-    mean_conv, stddev_conv = tf.split(3, 2, conv6)
+    mean_conv, stddev_conv = tf.split(conv6, 2, 3)
     mean = tf.reshape(mean_conv, [-1, 4*4*FLAGS.hidden_size])
     stddev = tf.reshape(stddev_conv, [-1, 4*4*FLAGS.hidden_size])
     stddev =  tf.sqrt(tf.exp(stddev))

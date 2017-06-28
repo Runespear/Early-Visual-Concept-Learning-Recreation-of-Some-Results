@@ -77,7 +77,7 @@ def test_stddev(network_type):
     weight_saver = tf.train.Saver(variables)
 
     # Summary op
-    summary_op = tf.merge_all_summaries()
+    summary_op = tf.summary.merge_all()
  
     # Start running operations on the Graph.
     sess = tf.Session()

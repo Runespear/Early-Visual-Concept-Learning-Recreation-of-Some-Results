@@ -15,8 +15,8 @@ def loss(mean, stddev, x, x_prime):
     loss_reconstruction = tf.reduce_sum(-x * tf.log(x_prime + epsilon) -
                   (1.0 - x) * tf.log(1.0 - x_prime + epsilon)) 
     # save for tensorboard
-    tf.scalar_summary('loss_vae', loss_vae)
-    tf.scalar_summary('loss_reconstruction', loss_reconstruction)
+    tf.summary.scalar('loss_vae', loss_vae)
+    tf.summary.scalar('loss_reconstruction', loss_reconstruction)
     # calc total loss 
     loss = tf.reduce_sum(loss_vae + loss_reconstruction)
 

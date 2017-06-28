@@ -1,5 +1,7 @@
 
+import sys
 
+sys.path.append('/usr/local/lib/python2.7/site-packages')
 import os.path
 import time
 
@@ -70,7 +72,7 @@ def train():
     saver = tf.train.Saver(tf.all_variables())   
 
     # Summary op
-    summary_op = tf.merge_all_summaries()
+    summary_op = tf.summary.merge_all()
  
     # Build an initialization operation to run below.
     init = tf.initialize_all_variables()
@@ -84,7 +86,7 @@ def train():
 
     # Summary op
     graph_def = sess.graph.as_graph_def(add_shapes=True)
-    summary_writer = tf.train.SummaryWriter(train_dir_save, graph_def=graph_def)
+    summary_writer = tf.summary.FileWriter(train_dir_save, graph_def=graph_def)
 
     for step in xrange(FLAGS.max_step):
       dat = b.bounce_vec(32, FLAGS.num_balls, FLAGS.batch_size)
