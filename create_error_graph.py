@@ -11,8 +11,9 @@ import layer_def as ld
 import architecture as arc
 import loss as ls  
 
+import matplotlib
+matplotlib.use('pdf')
 import matplotlib.pyplot as plt
-
 
 FLAGS = tf.app.flags.FLAGS
 

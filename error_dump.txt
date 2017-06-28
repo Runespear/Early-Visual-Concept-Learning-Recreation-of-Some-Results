@@ -1,0 +1,45 @@
+init network from scratch
+loss vae value at 2.84719
+loss reconstruction value at 91382.4
+time per batch is 0.0983769893646
+init network from scratch
+loss vae value at 21.7137
+loss reconstruction value at 91387.3
+time per batch is 0.097629070282
+init network from scratch
+loss vae value at 46.1111
+loss reconstruction value at 91389.0
+time per batch is 0.100741863251
+init network from scratch
+init network from scratch
+init network from scratch
+init network from scratch
+loss vae value at 0.0105003
+loss reconstruction value at 91365.6
+time per batch is 0.131802082062
+init network from scratch
+loss vae value at 0.0388326
+loss reconstruction value at 91385.6
+time per batch is 0.119933128357
+init network from scratch
+loss vae value at 0.0895462
+loss reconstruction value at 91387.9
+time per batch is 0.117192029953
+init network from scratch
+init network from scratch
+init network from scratch
+init network from scratch
+loss vae value at 0.0127708
+loss reconstruction value at 91407.6
+time per batch is 0.0909290313721
+init network from scratch
+loss vae value at 0.0231423
+loss reconstruction value at 91398.4
+time per batch is 0.0880830287933
+init network from scratch
+loss vae value at 0.0638189
+loss reconstruction value at 91406.6
+time per batch is 0.0907227993011
+init network from scratch
+init network from scratch
+init network from scratch

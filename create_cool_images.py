@@ -10,6 +10,8 @@ import bouncing_balls as b
 import layer_def as ld
 import architecture as arc
 
+import matplotlib
+matplotlib.use('pdf')
 import matplotlib.pyplot as plt
 
 FLAGS = tf.app.flags.FLAGS
