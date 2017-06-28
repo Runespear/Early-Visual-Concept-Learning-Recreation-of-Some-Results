@@ -1,26 +1,25 @@
-
-
-import numpy as np
+# import numpy as np
 import tensorflow as tf
-import cv2
+# import cv2
 
 import layer_def as ld
 
 FLAGS = tf.app.flags.FLAGS
 
+
 def fully_connected_model(x, keep_prob):
     # will not use keep prob at all for this model
     # create network
     # encodeing part first
-    x = tf.reshape(x, [-1, 32*32])
+    x = tf.reshape(x, [-1, 32 * 32])
     # fc1
     fc1 = ld.fc_layer(x, 1200, "encode_1")
     # fc2
     fc2 = ld.fc_layer(fc1, 1200, "encode_2")
-    # y 
+    # y
     y = ld.fc_layer(fc2, (FLAGS.hidden_size) * 2, "encode_3", False, True)
     mean, stddev = tf.split(y, 2, 1)
-    stddev =  tf.sqrt(tf.exp(stddev))
+    stddev = tf.sqrt(tf.exp(stddev))
     # now decoding part
     # sample distrobution
     epsilon = tf.random_normal(mean.get_shape())
@@ -32,11 +31,12 @@ def fully_connected_model(x, keep_prob):
     # fc6
     fc6 = ld.fc_layer(fc5, 1200, "decode_6")
     # fc7
-    fc7 = ld.fc_layer(fc6, 32*32, "decode_7", False, True)
+    fc7 = ld.fc_layer(fc6, 32 * 32, "decode_7", False, True)
     x_prime = tf.nn.sigmoid(fc7)
     x_prime = tf.reshape(x_prime, [-1, 32, 32, 1])
 
     return mean, stddev, y_sampled, x_prime
+
 
 def conv_model(x, keep_prob):
     # create network
@@ -49,14 +49,15 @@ def conv_model(x, keep_prob):
     conv3 = ld.conv_layer(conv2, 3, 2, 8, "encode_3")
     # conv4
     conv4 = ld.conv_layer(conv3, 1, 1, 4, "encode_4")
-    # fc5 
+    # fc5
     fc5 = ld.fc_layer(conv4, 128, "encode_5", True, False)
     # dropout maybe
     fc5_dropout = tf.nn.dropout(fc5, keep_prob)
-    # y 
-    y = ld.fc_layer(fc5_dropout, (FLAGS.hidden_size) * 2, "encode_6", False, True)
+    # y
+    flag2 = FLAGS.hidden_size * 2
+    y = ld.fc_layer(fc5_dropout, flag2, "encode_6", False, True)
     mean, stddev = tf.split(y, 2, 1)
-    stddev =  tf.sqrt(tf.exp(stddev))
+    stddev = tf.sqrt(tf.exp(stddev))
     # now decoding part
     # sample distrobution
     epsilon = tf.random_normal(mean.get_shape())
@@ -64,7 +65,8 @@ def conv_model(x, keep_prob):
     # fc7
     fc7 = ld.fc_layer(y_sampled, 128, "decode_7", False, False)
     # fc8
-    fc8 = ld.fc_layer(fc7, 4*8*8, "decode_8", False, False)
+    # 4 * 8 * 8 --> 256
+    fc8 = ld.fc_layer(fc7, 256, "decode_8", False, False)
     conv9 = tf.reshape(fc8, [-1, 8, 8, 4])
     # conv10
     conv10 = ld.transpose_conv_layer(conv9, 1, 1, 8, "decode_9")
@@ -80,6 +82,7 @@ def conv_model(x, keep_prob):
 
     return mean, stddev, y_sampled, x_prime
 
+
 def all_conv_model(x, keep_prob):
     # create network
     # encodeing part first
@@ -89,16 +92,16 @@ def all_conv_model(x, keep_prob):
     conv2 = ld.conv_layer(conv1, 3, 1, 8, "encode_2")
     # conv3
     conv3 = ld.conv_layer(conv2, 3, 2, 16, "encode_3")
-    # conv4 
+    # conv4
     conv4 = ld.conv_layer(conv3, 3, 1, 8, "encode_4")
-    # conv5 
+    # conv5
     conv5 = ld.conv_layer(conv4, 3, 1, 8, "encode_5")
     # conv6
-    conv6 = ld.conv_layer(conv5, 3, 2, FLAGS.hidden_size*2, "encode_6", True)
+    conv6 = ld.conv_layer(conv5, 3, 2, FLAGS.hidden_size * 2, "encode_6", True)
     mean_conv, stddev_conv = tf.split(conv6, 2, 3)
-    mean = tf.reshape(mean_conv, [-1, 4*4*FLAGS.hidden_size])
-    stddev = tf.reshape(stddev_conv, [-1, 4*4*FLAGS.hidden_size])
-    stddev =  tf.sqrt(tf.exp(stddev))
+    mean = tf.reshape(mean_conv, [-1, 4 * 4 * FLAGS.hidden_size])
+    stddev = tf.reshape(stddev_conv, [-1, 4 * 4 * FLAGS.hidden_size])
+    stddev = tf.sqrt(tf.exp(stddev))
     # now decoding part
     # sample distrobution
     epsilon = tf.random_normal(mean.get_shape())
@@ -122,5 +125,3 @@ def all_conv_model(x, keep_prob):
 
     # reshape these just to make them look like other networks
     return mean, stddev, y_sampled, x_prime
-
-
