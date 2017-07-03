@@ -1,5 +1,3 @@
-
-import numpy as np
 import tensorflow as tf
 
 FLAGS = tf.app.flags.FLAGS
@@ -14,7 +12,8 @@ def loss(mean, stddev, x, x_prime):
     loss_vae = FLAGS.beta * tf.reduce_sum(kl_loss)
     # log loss for reconstruction
     loss_reconstruction = tf.reduce_sum(-x * tf.log(x_prime + epsilon) -
-                          (1.0 - x) * tf.log(1.0 - x_prime + epsilon))
+                                        (1.0 - x) *
+                                        tf.log(1.0 - x_prime + epsilon))
     # save for tensorboard
     tf.summary.scalar('loss_vae', loss_vae)
     tf.summary.scalar('loss_reconstruction', loss_reconstruction)
